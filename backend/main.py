@@ -1537,6 +1537,11 @@ async def admin_add_product_api(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Внутренняя ошибка сервера: {str(e)}")
 
+import os
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # ========== ЗАПУСК ==========
 if __name__ == "__main__":
     print("=" * 70)

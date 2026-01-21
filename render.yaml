@@ -1,21 +1,14 @@
 services:
-  # Web Service
   - type: web
-    name: scooter-parts-shop
+    name: scooter-shop
     env: python
-    region: frankfurt  # Или oregon для США
+    region: frankfurt
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: ADMIN_PASSWORD
-        sync: false  # Установите вручную в Render Dashboard
-      - key: SECRET_KEY
-        generateValue: true  # Render сгенерирует автоматически
       - key: DATABASE_URL
-        fromDatabase:
-          sync: false  # Установите вручную в Render Dashboard
-      - key: PYTHON_VERSION
-        value: 3.11.0
-      - key: ENVIRONMENT
-        value: production
-
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
