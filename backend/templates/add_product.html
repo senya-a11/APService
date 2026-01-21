@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить товар | Scooter Parts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #6b7280;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #f9fafb;
+            --surface: #ffffff;
+            --text: #111827;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Forms */
+        .form-container {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--surface);
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-control[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--text-light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        /* Messages */
+        .message {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .message-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .message-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Image Section */
+        .image-section {
+            background: var(--background);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .image-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .image-url-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .image-url-input .form-control {
+            flex: 1;
+        }
+
+        .file-upload {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 40px;
+            border: 2px dashed var(--border);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary);
+        }
+
+        .file-upload-label span {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .image-url-input {
+                flex-direction: column;
+            }
+        }
+
+        /* Help text */
+        .help-text {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        .login-prompt {
+            text-align: center;
+            padding: 40px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        .login-prompt h2 {
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .login-prompt p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Проверка авторизации -->
+    <div id="authCheck" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Проверка авторизации...</p>
+    </div>
+
+    <!-- Запрос авторизации -->
+    <div id="loginRequired" class="login-prompt" style="display: none;">
+        <h2>🔐 Требуется авторизация</h2>
+        <p>Для добавления товаров необходимо войти в админ-панель.</p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <a href="/admin" class="btn btn-primary">
+                Войти в админку
+            </a>
+            <a href="/" class="btn btn-secondary">
+                На главную
+            </a>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div id="mainContent" style="display: none;">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <a href="/admin" class="logo">
+                    <span>🛠️</span>
+                    <span>Админ-панель Scooter Parts</span>
+                </a>
+
+                <div class="nav-links">
+                    <a href="/admin" class="nav-link">📊 Статистика</a>
+                    <a href="/admin" class="nav-link">📦 Товары</a>
+                    <a href="/admin/add-product" class="nav-link active">➕ Добавить товар</a>
+                    <button id="logoutBtn" class="btn btn-danger" style="padding: 8px 16px;">
+                        🚪 Выйти
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container">
+            <h1 class="page-title">➕ Добавить новый товар</h1>
+
+            <!-- Сообщения -->
+            <div id="messages"></div>
+
+            <!-- Форма -->
+            <div class="form-container">
+                <form id="addProductForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Название товара</label>
+                            <input type="text" class="form-control" name="name" required
+                                   placeholder="Например: Аккумулятор Premium 36V"
+                                   minlength="3" maxlength="200">
+                            <span class="help-text">Минимум 3 символа, максимум 200</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Категория</label>
+                            <select class="form-control" name="category" required>
+                                <option value="">-- Выберите категорию --</option>
+                                <option value="batteries">🔋 Аккумуляторы</option>
+                                <option value="motors">⚙️ Моторы</option>
+                                <option value="electronics">📱 Электроника</option>
+                                <option value="brakes">🛑 Тормоза</option>
+                                <option value="tires">🛞 Колёса</option>
+                                <option value="accessories">🔧 Аксессуары</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Цена (руб)</label>
+                            <input type="number" class="form-control" name="price"
+                                   min="0" step="0.01" required placeholder="0.00">
+                            <span class="help-text">Должна быть больше 0</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Количество на складе</label>
+                            <input type="number" class="form-control" name="stock"
+                                   min="0" required placeholder="0">
+                            <span class="help-text">0 или больше</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required">Описание</label>
+                        <textarea class="form-control form-textarea" name="description"
+                                  required placeholder="Подробное описание товара..."
+                                  minlength="10" rows="4"></textarea>
+                        <span class="help-text">Минимум 10 символов</span>
+                    </div>
+
+                    <!-- Изображение -->
+                    <div class="image-section">
+                        <h3 class="image-section-title">Изображение товара</h3>
+
+                        <div class="form-group">
+                            <label class="form-label">URL изображения (если есть)</label>
+                            <div class="image-url-input">
+                                <input type="text" class="form-control" id="imageUrlInput"
+                                       placeholder="/static/images/battery.jpg">
+                                <button type="button" class="btn btn-secondary" id="clearImageUrl">
+                                    Очистить
+                                </button>
+                            </div>
+                            <span class="help-text">Или оставьте пустым для использования изображения по умолчанию</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Или загрузите файл</label>
+                            <div class="file-upload">
+                                <label class="file-upload-label" for="imageFileInput">
+                                    <span>📤 Нажмите для загрузки изображения</span>
+                                    <span style="font-size: 12px;">JPG, PNG, GIF, WebP (макс. 5MB)</span>
+                                </label>
+                                <input type="file" id="imageFileInput" accept=".jpg,.jpeg,.png,.gif,.webp">
+                            </div>
+                            <span class="help-text">Максимальный размер файла: 5MB</span>
+                        </div>
+
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <p class="help-text">Предпросмотр:</p>
+                            <img id="previewImage" src="" alt="Предпросмотр">
+                            <button type="button" class="btn btn-secondary" id="removePreview"
+                                    style="margin-top: 10px; padding: 8px 16px;">
+                                Удалить изображение
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" name="featured" id="featuredCheckbox">
+                            <span>Отметить как популярный товар (будет показан на главной)</span>
+                        </label>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            💾 Сохранить товар
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetBtn">
+                            ↺ Очистить форму
+                        </button>
+                        <a href="/admin" class="btn btn-secondary">
+                            ← Назад к админке
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Инструкции -->
+            <div class="form-container">
+                <h3 style="margin-bottom: 20px;">ℹ️ Инструкция по добавлению товара</h3>
+                <div style="color: var(--text-light); font-size: 14px; line-height: 1.6;">
+                    <p><strong>1. Обязательные поля:</strong> Все поля, отмеченные *, обязательны для заполнения.</p>
+                    <p><strong>2. Изображение:</strong> Можно загрузить файл, указать URL или оставить пустым для использования изображения по умолчанию.</p>
+                    <p><strong>3. Популярные товары:</strong> Отметьте галочкой, чтобы товар отображался на главной странице.</p>
+                    <p><strong>4. Проверка:</strong> Все данные проверяются перед сохранением.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Индикатор загрузки -->
+        <div id="loadingOverlay" class="loading" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 1000;">
+            <div class="loading-spinner"></div>
+            <p>Сохранение товара...</p>
+        </div>
+    </div>
+
+    <script>
+        // Глобальные переменные
+        let adminToken = null;
+
+        // DOM элементы
+        const authCheck = document.getElementById('authCheck');
+        const loginRequired = document.getElementById('loginRequired');
+        const mainContent = document.getElementById('mainContent');
+        const messages = document.getElementById('messages');
+        const addProductForm = document.getElementById('addProductForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const imageUrlInput = document.getElementById('imageUrlInput');
+        const clearImageUrlBtn = document.getElementById('clearImageUrl');
+        const imageFileInput = document.getElementById('imageFileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const removePreviewBtn = document.getElementById('removePreview');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const featuredCheckbox = document.getElementById('featuredCheckbox');
+
+        // Функции
+        function showMessage(type, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${type}`;
+            messageDiv.innerHTML = `
+                <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                <span>${text}</span>
+            `;
+
+            // Вставляем в начало контейнера
+            if (messages.firstChild) {
+                messages.insertBefore(messageDiv, messages.firstChild);
+            } else {
+                messages.appendChild(messageDiv);
+            }
+
+            // Автоматически удаляем через 5 секунд
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        function clearMessages() {
+            messages.innerHTML = '';
+        }
+
+        function showLoading() {
+            loadingOverlay.style.display = 'block';
+            submitBtn.disabled = true;
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+            submitBtn.disabled = false;
+        }
+
+        // Проверка авторизации
+        async function checkAuth() {
+            console.log('🔐 Проверка авторизации...');
+
+            // Получаем токен из localStorage
+            adminToken = localStorage.getItem('adminToken');
+
+            if (!adminToken) {
+                console.log('❌ Токен не найден');
+                authCheck.style.display = 'none';
+                loginRequired.style.display = 'block';
+                return false;
+            }
+
+            try {
+                // Проверяем токен через API
+                console.log('🔑 Проверка токена через API...');
+                const response = await fetch('/api/admin/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('✅ Токен валиден');
+                    authCheck.style.display = 'none';
+                    loginRequired.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    return true;
+                } else {
+                    console.log('❌ Токен невалиден');
+                    localStorage.removeItem('adminToken');
+                    adminToken = null;
+                    authCheck.style.display = 'none';
+                    loginRequired.style.display = 'block';
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Ошибка проверки авторизации:', error);
+                authCheck.style.display = 'none';
+                loginRequired.style.display = 'block';
+                return false;
+            }
+        }
+
+        // Обработчики событий
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Страница добавления товара загружена');
+
+            // Проверяем авторизацию
+            checkAuth();
+
+            // Выход из админки
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('adminToken');
+                adminToken = null;
+                window.location.href = '/admin';
+            });
+
+            // Очистка URL изображения
+            clearImageUrlBtn.addEventListener('click', () => {
+                imageUrlInput.value = '';
+            });
+
+            // Просмотр файла изображения
+            imageFileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    console.log('📁 Выбран файл:', file.name, 'размер:', file.size);
+
+                    // Проверяем размер
+                    if (file.size > 5 * 1024 * 1024) {
+                        showMessage('error', 'Размер файла не должен превышать 5MB');
+                        this.value = '';
+                        return;
+                    }
+
+                    // Показываем превью
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+
+                    // Очищаем URL поле
+                    imageUrlInput.value = '';
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
+
+            // Удаление превью
+            removePreviewBtn.addEventListener('click', () => {
+                imageFileInput.value = '';
+                imagePreview.style.display = 'none';
+                imageUrlInput.value = '';
+            });
+
+            // Сброс формы
+            resetBtn.addEventListener('click', () => {
+                if (confirm('Вы уверены, что хотите очистить форму? Все введенные данные будут потеряны.')) {
+                    addProductForm.reset();
+                    imageFileInput.value = '';
+                    imageUrlInput.value = '';
+                    imagePreview.style.display = 'none';
+                    clearMessages();
+                    showMessage('info', 'Форма очищена');
+                }
+            });
+
+            // Отправка формы
+            addProductForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearMessages();
+
+                console.log('📤 Отправка формы добавления товара...');
+
+                // Блокируем кнопку и показываем загрузку
+                showLoading();
+
+                // Подготавливаем FormData
+                const formData = new FormData();
+
+                // Добавляем основные поля
+                const name = document.querySelector('[name="name"]').value.trim();
+                const category = document.querySelector('[name="category"]').value;
+                const price = document.querySelector('[name="price"]').value;
+                const description = document.querySelector('[name="description"]').value.trim();
+                const stock = document.querySelector('[name="stock"]').value;
+                const featured = featuredCheckbox.checked;
+
+                // Валидация на клиенте
+                if (!name || name.length < 3) {
+                    hideLoading();
+                    showMessage('error', 'Название товара должно содержать минимум 3 символа');
+                    return;
+                }
+
+                if (!category) {
+                    hideLoading();
+                    showMessage('error', 'Выберите категорию товара');
+                    return;
+                }
+
+                if (!price || parseFloat(price) <= 0) {
+                    hideLoading();
+                    showMessage('error', 'Цена должна быть больше 0');
+                    return;
+                }
+
+                if (!description || description.length < 10) {
+                    hideLoading();
+                    showMessage('error', 'Описание должно содержать минимум 10 символов');
+                    return;
+                }
+
+                if (!stock || parseInt(stock) < 0) {
+                    hideLoading();
+                    showMessage('error', 'Количество должно быть 0 или больше');
+                    return;
+                }
+
+                // Добавляем данные в FormData
+                formData.append('name', name);
+                formData.append('category', category);
+                formData.append('price', price);
+                formData.append('description', description);
+                formData.append('stock', stock);
+                formData.append('featured', featured.toString());
+
+                // Добавляем изображение
+                const imageUrl = imageUrlInput.value.trim();
+                const imageFile = imageFileInput.files[0];
+
+                if (imageFile) {
+                    console.log('📁 Добавлен файл изображения');
+                    formData.append('image_file', imageFile);
+                } else if (imageUrl) {
+                    console.log('🔗 Добавлен URL изображения');
+                    formData.append('image_url', imageUrl);
+                }
+
+                try {
+                    console.log('🚀 Отправка запроса на /api/admin/add-product...');
+
+                    const response = await fetch('/api/admin/add-product', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${adminToken}`
+                            // Content-Type устанавливается автоматически для FormData
+                        },
+                        body: formData
+                    });
+
+                    console.log('📥 Получен ответ:', response.status);
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('✅ Товар добавлен:', result);
+
+                        showMessage('success', result.message || 'Товар успешно добавлен!');
+
+                        // Очищаем форму через 2 секунды
+                        setTimeout(() => {
+                            addProductForm.reset();
+                            imageFileInput.value = '';
+                            imageUrlInput.value = '';
+                            imagePreview.style.display = 'none';
+                            featuredCheckbox.checked = false;
+
+                            showMessage('info', 'Форма очищена. Можно добавить следующий товар.');
+                        }, 2000);
+
+                    } else {
+                        const errorText = await response.text();
+                        console.error('❌ Ошибка сервера:', errorText);
+
+                        let errorMessage = 'Ошибка добавления товара';
+                        try {
+                            const errorJson = JSON.parse(errorText);
+                            errorMessage = errorJson.detail || errorJson.message || errorMessage;
+                        } catch (e) {
+                            // Не JSON ответ
+                            if (errorText.includes('detail')) {
+                                const match = errorText.match(/"detail"\s*:\s*"([^"]+)"/);
+                                if (match) {
+                                    errorMessage = match[1];
+                                }
+                            }
+                        }
+
+                        showMessage('error', errorMessage);
+
+                        // Если проблема с авторизацией
+                        if (response.status === 401 || response.status === 403) {
+                            setTimeout(() => {
+                                localStorage.removeItem('adminToken');
+                                window.location.href = '/admin';
+                            }, 2000);
+                        }
+                    }
+                } catch (error) {
+                    console.error('❌ Ошибка сети:', error);
+                    showMessage('error', `Ошибка сети: ${error.message}. Проверьте подключение.`);
+                } finally {
+                    hideLoading();
+                }
+            });
+        });
+
+        // Дебаг функция
+        window.debugForm = function() {
+            console.log('📋 Отладочная информация формы:');
+            console.log('Токен:', adminToken ? '✓' : '✗');
+            console.log('Название:', document.querySelector('[name="name"]').value);
+            console.log('Категория:', document.querySelector('[name="category"]').value);
+            console.log('Цена:', document.querySelector('[name="price"]').value);
+            console.log('Описание:', document.querySelector('[name="description"]').value.substring(0, 50) + '...');
+            console.log('Количество:', document.querySelector('[name="stock"]').value);
+            console.log('Популярный:', featuredCheckbox.checked);
+            console.log('URL изображения:', imageUrlInput.value);
+            console.log('Файл изображения:', imageFileInput.files[0] ? imageFileInput.files[0].name : 'нет');
+        };
+    </script>
+</body>
+</html>
