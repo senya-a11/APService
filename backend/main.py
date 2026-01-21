@@ -33,11 +33,30 @@ load_dotenv()
 
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
+from pathlib import Path
+import os
 
-# ... остальные импорты ...
+# ========== НАСТРОЙКА ==========
+BASE_DIR = Path(__file__).parent.parent
+
+# Настройка Jinja2 с проверкой пути
+templates_path = BASE_DIR / "templates"
+
+# Проверяем путь в разных вариантах (для локальной разработки и Docker)
+if not templates_path.exists():
+    # Попробуем другой путь (для Docker)
+    templates_path = Path("/app/templates")  # Docker путь
+    if not templates_path.exists():
+        # Создаем папку и базовые файлы
+        templates_path = BASE_DIR / "templates"
+        templates_path.mkdir(exist_ok=True)
+        print(f"📁 Создана папка шаблонов: {templates_path}")
+
+print(f"🔍 Путь к шаблонам: {templates_path.absolute()}")
+print(f"📁 Содержимое: {list(templates_path.glob('*.html'))}")
 
 # Настройка Jinja2
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=str(templates_path))
 
 # ========== НАСТРОЙКА ==========
 BASE_DIR = Path(__file__).parent.parent
