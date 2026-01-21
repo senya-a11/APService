@@ -1,0 +1,41 @@
+# .dockerignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log
+
+# Статические и медиа файлы (если не нужны в образе)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Докер
+docker-compose.yml
+.dockerignore
+Dockerfile*
+
+# Render
+render.yaml
