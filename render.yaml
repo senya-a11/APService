@@ -13,17 +13,9 @@ services:
         generateValue: true  # Render сгенерирует автоматически
       - key: DATABASE_URL
         fromDatabase:
-          name: scooter-parts-db
-          property: connectionString
+          sync: false  # Установите вручную в Render Dashboard
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: ENVIRONMENT
         value: production
 
-  # PostgreSQL Database
-  - type: pgsql
-    name: scooter-parts-db
-    region: frankfurt  # Тот же регион что и web service
-    plan: free  # Бесплатный план (90 дней, потом нужно обновить)
-    databaseName: scooter_shop
-    user: scooter_user
